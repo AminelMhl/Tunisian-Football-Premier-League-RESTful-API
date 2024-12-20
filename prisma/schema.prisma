@@ -18,9 +18,58 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  email    String @unique
-  hash     String
+  email String @unique
+  name  String
+  hash  String
 
-  firstName String?
-  lastName  String?
+  role String @default("USER")
+}
+
+model Team {
+  id             Int      @id @default(autoincrement())
+  name           String
+  founded        Int
+  city           String
+  points         Int      @default(0)
+  position       Int?
+  matchesPlayed  Int      @default(0)
+  wins           Int      @default(0)
+  draws          Int      @default(0)
+  losses         Int      @default(0)
+  goalsFor       Int      @default(0)
+  goalsAgainst   Int      @default(0)
+  goalDifference Int      @default(0)
+  players        Player[]
+  homeMatches    Match[]  @relation("home_team")
+  awayMatches    Match[]  @relation("away_team")
+}
+
+model Player {
+  id Int @id @default(autoincrement())
+
+  name        String
+  nationality String
+  age         Int
+
+  position String
+  team_id  Int
+  goals    Int    @default(0)
+  assists  Int    @default(0)
+
+  Teams Team @relation(fields: [team_id], references: [id])
+}
+
+model Match {
+  id Int @id @default(autoincrement())
+
+  home_team_id Int
+  away_team_id Int
+
+  home_score Int @default(0)
+  away_score Int @default(0)
+
+  date DateTime
+
+  homeTeam Team @relation("home_team", fields: [home_team_id], references: [id])
+  awayTeam Team @relation("away_team", fields: [away_team_id], references: [id])
 }
