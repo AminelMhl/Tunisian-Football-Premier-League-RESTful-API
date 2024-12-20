@@ -8,11 +8,7 @@ export class UsersService {
   constructor(private prisma: PrismaService) { }
 
   getAllUsers() {
-    return this.prisma.user.findMany({
-      where: {
-        role: "USER"
-      }
-    });
+    return this.prisma.user.findMany();
   }
 
   getAllAdmins() {
