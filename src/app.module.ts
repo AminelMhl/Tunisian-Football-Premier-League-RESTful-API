@@ -9,9 +9,10 @@ import { PlayersModule } from './players/players.module';
 import { StandingsModule } from './standings/standings.module';
 import { ScheduleModule } from './schedule/schedule.module';
 import { MatchesModule } from './matches/matches.module';
+import { FootballApiServiceModule } from './football-api-service/football-api-service.module';
 
 @Module({
-  imports: [AuthModule, PrismaModule, UsersModule, TeamsModule, PlayersModule, StandingsModule, ScheduleModule, MatchesModule],
+  imports: [AuthModule, PrismaModule, UsersModule, TeamsModule, PlayersModule, StandingsModule, ScheduleModule, MatchesModule, FootballApiServiceModule],
   controllers: [AppController],
   providers: [AppService],
 })

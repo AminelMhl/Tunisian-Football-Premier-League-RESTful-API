@@ -27,7 +27,7 @@ model User {
 
 model Team {
   id             Int      @id @default(autoincrement())
-  name           String
+  name           String   @unique  
   founded        Int
   city           String
   points         Int      @default(0)
