@@ -10,9 +10,11 @@ import { StandingsModule } from './standings/standings.module';
 import { ScheduleModule } from './schedule/schedule.module';
 import { MatchesModule } from './matches/matches.module';
 import { FootballApiServiceModule } from './football-api-service/football-api-service.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
-  imports: [AuthModule, PrismaModule, UsersModule, TeamsModule, PlayersModule, StandingsModule, ScheduleModule, MatchesModule, FootballApiServiceModule],
+  imports: [AuthModule, PrismaModule, UsersModule, TeamsModule, PlayersModule, StandingsModule, ScheduleModule, MatchesModule, FootballApiServiceModule, ConfigModule.forRoot(), // Ensure ConfigModule is initialized here
+    AuthModule],
   controllers: [AppController],
   providers: [AppService],
 })

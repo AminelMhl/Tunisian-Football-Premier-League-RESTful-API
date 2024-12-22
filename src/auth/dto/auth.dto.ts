@@ -1,39 +1,48 @@
-import { IsEmail, IsNotEmpty, IsString } from "class-validator";
+import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
 
-export class AuthdtoSignUp{
-    @IsEmail()
-    @IsNotEmpty()
-    email: string;
+export class AuthdtoSignUp {
+  @ApiProperty()
+  @IsEmail()
+  @IsNotEmpty()
+  email: string;
 
-    @IsString()
-    @IsNotEmpty()
-    name: string;
+  @ApiProperty()
+  @IsString()
+  @IsNotEmpty()
+  password: string;
 
-    @IsString()
-    @IsNotEmpty()
-    password: string;
+  @ApiProperty()
+  @IsString()
+  @IsNotEmpty()
+  name: string;
 }
 
-export class AuthdtoSignIn{
-    @IsEmail()
-    @IsNotEmpty()
-    email: string;
+export class AuthdtoSignIn {
+  @ApiProperty()
+  @IsEmail()
+  @IsNotEmpty()
+  email: string;
 
-    @IsString()
-    @IsNotEmpty()
-    password: string;
+  @ApiProperty()
+  @IsString()
+  @IsNotEmpty()
+  password: string;
 }
 
-export class AuthdtoChangePass{
-    @IsEmail()
-    @IsNotEmpty()
-    email: string;
+export class AuthdtoChangePass {
+  @ApiProperty()
+  @IsEmail()
+  @IsNotEmpty()
+  email: string;
 
-    @IsString()
-    @IsNotEmpty()
-    password: string;
+  @ApiProperty()
+  @IsString()
+  @IsNotEmpty()
+  oldPassword: string;
 
-    @IsString()
-    @IsNotEmpty()
-    newPassword: string;
+  @ApiProperty()
+  @IsString()
+  @IsNotEmpty()
+  newPassword: string;
 }

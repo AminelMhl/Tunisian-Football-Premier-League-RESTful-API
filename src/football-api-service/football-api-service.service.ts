@@ -24,7 +24,7 @@ export class FootballApiServiceService {
                     },
                 }),
             );
-            console.log('API Response:', response.data); // Log the response
+            console.log('API Response:', response.data); 
             return response.data.response[0].league.standings[0];
         } catch (error) {
             console.error('Error fetching standings:', error.message);
