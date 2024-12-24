@@ -9,7 +9,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -23,11 +23,12 @@ model User {
   hash  String
 
   role String @default("USER")
+
 }
 
 model Team {
   id             Int      @id @default(autoincrement())
-  name           String   @unique  
+  name           String   @unique
   founded        Int
   city           String
   points         Int      @default(0)
@@ -47,7 +48,7 @@ model Team {
 model Player {
   id Int @id @default(autoincrement())
 
-  name        String
+  name        String @unique
   nationality String
   age         Int
 
@@ -65,11 +66,16 @@ model Match {
   home_team_id Int
   away_team_id Int
 
-  home_score Int @default(0)
-  away_score Int @default(0)
+  goals_for Int @default(0)
+  goals_against Int @default(0)
 
   date DateTime
 
   homeTeam Team @relation("home_team", fields: [home_team_id], references: [id])
   awayTeam Team @relation("away_team", fields: [away_team_id], references: [id])
+
+  
 }
+
+
+

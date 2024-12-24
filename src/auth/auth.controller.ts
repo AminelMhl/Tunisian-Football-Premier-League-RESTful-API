@@ -1,7 +1,8 @@
-import { Controller, Post, Body, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Req, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthdtoSignIn, AuthdtoSignUp, AuthdtoChangePass } from './dto';
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
+import { AuthGuard } from '@nestjs/passport';
 import { JwtAuthGuard } from './jwt-auth.guard';
 
 @ApiTags('auth')
@@ -23,6 +24,20 @@ export class AuthController {
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   async signIn(@Body() dto: AuthdtoSignIn) {
     return this.authService.SignIn(dto);
+  }
+
+  @Get('google')
+  @UseGuards(AuthGuard('google'))
+  @ApiOperation({ summary: 'Google OAuth login' })
+  @ApiResponse({ status: 302, description: 'Redirect to Google OAuth' })
+  async googleAuth(@Req() req) {}
+
+  @Get('google/callback')
+  @UseGuards(AuthGuard('google'))
+  @ApiOperation({ summary: 'Google OAuth callback' })
+  @ApiResponse({ status: 200, description: 'User authenticated' })
+  async googleAuthRedirect(@Req() req) {
+    return this.authService.googleLogin(req);
   }
 
   @Post('change-password')

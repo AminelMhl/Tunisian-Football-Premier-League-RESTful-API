@@ -7,7 +7,7 @@ export class FootballApiServiceController {
 
   @Post('/update')
   async updateStandings() {
-    await this.footballApiServiceService.updateTeamStandings();
+    await this.footballApiServiceService.fetchStandings();
     return { message: 'Standings updated successfully!' };
   }
 

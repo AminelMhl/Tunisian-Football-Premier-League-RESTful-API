@@ -1,26 +1,18 @@
 import { Injectable } from '@nestjs/common';
 import { CreateStandingDto } from './dto/create-standing.dto';
 import { UpdateStandingDto } from './dto/update-standing.dto';
+import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class StandingsService {
-  create(createStandingDto: CreateStandingDto) {
-    return 'This action adds a new standing';
+  constructor(private readonly prisma: PrismaService) {}
+
+  getStandings() {
+    return this.prisma.team.findMany({
+      orderBy: {
+        position: 'asc',
+      },
+    });
   }
 
-  findAll() {
-    return `This action returns all standings`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} standing`;
-  }
-
-  update(id: number, updateStandingDto: UpdateStandingDto) {
-    return `This action updates a #${id} standing`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} standing`;
-  }
 }

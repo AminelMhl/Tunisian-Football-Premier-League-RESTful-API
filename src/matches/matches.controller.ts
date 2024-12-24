@@ -7,28 +7,23 @@ import { UpdateMatchDto } from './dto/update-match.dto';
 export class MatchesController {
   constructor(private readonly matchesService: MatchesService) {}
 
-  @Post()
-  create(@Body() createMatchDto: CreateMatchDto) {
-    return this.matchesService.create(createMatchDto);
-  }
-
   @Get()
-  findAll() {
-    return this.matchesService.findAll();
+  getAllMatches() {
+    return this.matchesService.getAllMatches();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.matchesService.findOne(+id);
+  getMatch(@Param('id') id: string) {
+    return this.matchesService.getMatch(Number(id));
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateMatchDto: UpdateMatchDto) {
-    return this.matchesService.update(+id, updateMatchDto);
+  @Get('team/:id')
+  getTeamMatches(@Param('id') id: string) {
+    return this.matchesService.getTeamMatches(Number(id));
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.matchesService.remove(+id);
+  @Get('date/:date')
+  getMatchByDate(@Param('date') date: string) {
+    return this.matchesService.getMatchByDate(new Date(date));
   }
 }

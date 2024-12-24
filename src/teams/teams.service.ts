@@ -7,19 +7,29 @@ import { PrismaService } from 'src/prisma/prisma.service';
 export class TeamsService {
   constructor(private prisma: PrismaService) {}
 
-  getAllTeams() {
+  async getAllTeams() {
     return this.prisma.team.findMany();
   }
 
-  getTeam(id: number) {
-    return this.prisma.team.findUnique({
+  async getTeam(id: number) {
+    const team = await this.prisma.team.findUnique({
       where: { id: id }
     });
+    if (!team) {
+      throw new Error(`Team with ID ${id} not found`);
+    }
+    return team;
   }
 
-  getTeamPlayers(id: number) {
-    return this.prisma.team.findUnique({
+  async getTeamPlayers(id: number) {
+    const team = await this.prisma.team.findUnique({
       where: { id: id }
-    }).players();
+    });
+    if (!team) {
+      throw new Error(`Team with ID ${id} not found`);
+    }
+    return this.prisma.player.findMany({
+      where: { team_id: id }
+    });
   }
 }
