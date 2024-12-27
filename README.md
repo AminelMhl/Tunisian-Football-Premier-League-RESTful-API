@@ -14,12 +14,13 @@ This project is a RESTful API for the Tunisian Football Premier League, built us
 
 ## Features
 
-- **User   Authentication**: Secure user registration and login using JWT and Google OAuth.
-- **Team Management**: Create, read, update, and delete teams.
-- **Player Management**: Manage players associated with teams.
+- **User Authentication**: Secure user registration and login using JWT and Google OAuth.
+- **Team Management**: Read teams.
+- **Player Management**: Check players associated with teams.
 - **Match Management**: Record and retrieve match details, including scores and participating teams.
 - **Standings**: Fetch and update league standings based on match results.
 - **Fantasy League**: Create and manage fantasy teams, including adding/removing players and tracking points.
+- **External Football Api**: Update data in realtime.
 
 ## Technologies Used
 

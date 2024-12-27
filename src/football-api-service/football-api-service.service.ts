@@ -3,13 +3,14 @@ import { Injectable } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { lastValueFrom } from 'rxjs';
 import { PrismaService } from '../prisma/prisma.service';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class FootballApiServiceService {
-  private readonly API_URL = 'https://v3.football.api-sports.io/standings';
-  private readonly API_KEY = '8a9b956142c333a86a210ae13533d168';
+  private readonly API_URL = this.configService.get<string>('API_URL');
+  private readonly API_KEY = this.configService.get<string>('API_KEY');
 
-  constructor(private readonly httpService: HttpService, private readonly prisma: PrismaService) {}
+  constructor(private readonly httpService: HttpService, private readonly prisma: PrismaService, private readonly configService: ConfigService) {}
 
   async fetchStandings(): Promise<any> {
     try {
