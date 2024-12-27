@@ -1,3 +1,7 @@
+<h1 align="center">
+   Tunisian Football Premier League RESTful API
+</h1>
+
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
 </p>
@@ -6,7 +10,26 @@
 
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository for the Tunisian Football Premier League RESTful API.
+This project is a RESTful API for the Tunisian Football Premier League, built using the [NestJS](https://github.com/nestjs/nest) framework. It provides functionalities to manage teams, players, matches, and standings in the league. The API is designed to be efficient, scalable, and easy to use.
+
+## Features
+
+- **User   Authentication**: Secure user registration and login using JWT and Google OAuth.
+- **Team Management**: Create, read, update, and delete teams.
+- **Player Management**: Manage players associated with teams.
+- **Match Management**: Record and retrieve match details, including scores and participating teams.
+- **Standings**: Fetch and update league standings based on match results.
+- **Fantasy League**: Create and manage fantasy teams, including adding/removing players and tracking points.
+
+## Technologies Used
+
+- **NestJS**: A progressive Node.js framework for building efficient server-side applications.
+- **TypeScript**: A superset of JavaScript that compiles to plain JavaScript.
+- **Prisma**: An ORM for Node.js and TypeScript that simplifies database access.
+- **PostgreSQL**: A powerful, open-source relational database system.
+- **JWT**: JSON Web Tokens for secure authentication.
+- **Google OAuth**: For third-party authentication.
+- **Axios**: For making HTTP requests to external APIs.
 
 ## Project setup
 
