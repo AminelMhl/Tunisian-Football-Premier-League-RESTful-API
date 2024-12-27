@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UsersService } from './users.service';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { PrismaService } from '../prisma/prisma.service';
 
 describe('UsersService', () => {
   let service: UsersService;
@@ -27,8 +27,23 @@ describe('UsersService', () => {
         email: 'john.doe@example.com',
         name: 'John Doe',
         hash: 'hashedpassword',
-        role: 'user'
-    }];
+        role: 'user',
+        refreshToken: 'someRefreshToken',
+        verificationToken: 'emptyVerificationToken',
+        isVerified: true
+    },
+    {
+      id: 2,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      email: 'jack.son@example.com',
+      name: 'Jack Son',
+      hash: 'hashedpassword',
+      role: 'user',
+      refreshToken: 'someRefreshToken',
+      verificationToken: 'someVerificationToken',
+      isVerified: false
+  }];
     jest.spyOn(prisma.user, 'findMany').mockResolvedValue(result);
 
     expect(await service.getAllUsers()).toBe(result);
@@ -36,14 +51,17 @@ describe('UsersService', () => {
 
   it('should return a user by ID', async () => {
     const result = {
-        id: 1,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        email: 'john.doe@example.com',
-        name: 'John Doe',
-        hash: 'hashedpassword',
-        role: 'user'
-    };
+      id: 1,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      email: 'john.doe@example.com',
+      name: 'John Doe',
+      hash: 'hashedpassword',
+      role: 'user',
+      refreshToken: 'someRefreshToken',
+      verificationToken: 'someVerificationToken',
+      isVerified: true
+  };
     jest.spyOn(prisma.user, 'findUnique').mockResolvedValue(result);
 
     expect(await service.getUser (1)).toBe(result);

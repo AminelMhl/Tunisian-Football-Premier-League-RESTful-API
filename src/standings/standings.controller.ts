@@ -1,7 +1,5 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { StandingsService } from './standings.service';
-import { CreateStandingDto } from './dto/create-standing.dto';
-import { UpdateStandingDto } from './dto/update-standing.dto';
 import { ApiOperation } from '@nestjs/swagger';
 
 @Controller('standings')

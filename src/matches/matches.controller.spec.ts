@@ -32,42 +32,12 @@ describe('MatchesController', () => {
 
   it('should return all matches', async () => {
     const result = [{
-      id: 1,
-      homeTeam: {
-        name: 'Team A',
-        id: 1,
-        founded: 1900,
-        city: 'City A',
-        points: 0,
-        position: 1,
-        matchesPlayed: 0,
-        wins: 0,
-        draws: 0,
-        losses: 0,
-        goalsFor: 0,
-        goalsAgainst: 0,
-        goalDifference: 0
-      },
-      awayTeam: {
-        name: 'Team B',
-        id: 2,
-        founded: 1900,
-        city: 'City B',
-        points: 0,
-        position: 2,
-        matchesPlayed: 0,
-        wins: 0,
-        draws: 0,
-        losses: 0,
-        goalsFor: 0,
-        goalsAgainst: 0,
-        goalDifference: 0
-      },
-      home_team_id: 1,
-      away_team_id: 2,
-      homeGoals: 0,
-      awayGoals: 0,
-      date: new Date()
+      result: "Team A score - score Team B",
+      date: new Date(),
+    },
+    {
+      result: "Team C score - score Team D",
+      date: new Date(),
     }];
     jest.spyOn(service, 'getAllMatches').mockResolvedValue(result);
 
@@ -76,42 +46,8 @@ describe('MatchesController', () => {
 
   it('should return a match by ID', async () => {
     const result = {
-      id: 1,
-      homeTeam: {
-        name: 'Team A',
-        id: 1,
-        founded: 1900,
-        city: 'City A',
-        points: 0,
-        position: 1,
-        matchesPlayed: 0,
-        wins: 0,
-        draws: 0,
-        losses: 0,
-        goalsFor: 0,
-        goalsAgainst: 0,
-        goalDifference: 0
-      },
-      awayTeam: {
-        name: 'Team B',
-        id: 2,
-        founded: 1900,
-        city: 'City B',
-        points: 0,
-        position: 2,
-        matchesPlayed: 0,
-        wins: 0,
-        draws: 0,
-        losses: 0,
-        goalsFor: 0,
-        goalsAgainst: 0,
-        goalDifference: 0
-      },
-      home_team_id: 1,
-      away_team_id: 2,
-      homeGoals: 0,
-      awayGoals: 0,
-      date: new Date()
+      result:"Team A score - score Team B",
+      date: new Date(),
     };
     jest.spyOn(service, 'getMatch').mockResolvedValue(result);
 
@@ -119,43 +55,13 @@ describe('MatchesController', () => {
   });
 
   it('should return matches for a specific team', async () => {
-    const result = [{
-      id: 1,
-      homeTeam: {
-        name: 'Team A',
-        id: 1,
-        founded: 1900,
-        city: 'City A',
-        points: 0,
-        position: 1,
-        matchesPlayed: 0,
-        wins: 0,
-        draws: 0,
-        losses: 0,
-        goalsFor: 0,
-        goalsAgainst: 0,
-        goalDifference: 0
-      },
-      awayTeam: {
-        name: 'Team B',
-        id: 2,
-        founded: 1900,
-        city: 'City B',
-        points: 0,
-        position: 2,
-        matchesPlayed: 0,
-        wins: 0,
-        draws: 0,
-        losses: 0,
-        goalsFor: 0,
-        goalsAgainst: 0,
-        goalDifference: 0
-      },
-      home_team_id: 1,
-      away_team_id: 2,
-      homeGoals: 0,
-      awayGoals: 0,
-      date: new Date()
+    const result =[{
+      result: "Team A score - score Team B",
+      date: new Date(),
+    },
+    {
+      result: "Team C score - score Team D",
+      date: new Date(),
     }];
     jest.spyOn(service, 'getTeamMatches').mockResolvedValue(result);
 
@@ -163,13 +69,13 @@ describe('MatchesController', () => {
   });
 
   it('should return matches by date', async () => {
-    const result = [{ 
-      id: 1, 
-      home_team_id: 1, 
-      away_team_id: 2, 
-      homeGoals: 0, 
-      awayGoals: 0, 
-      date: new Date() 
+    const result = [{
+      result: "Team A score - score Team B",
+      date: new Date(),
+    },
+    {
+      result: "Team C score - score Team D",
+      date: new Date(),
     }];
     jest.spyOn(service, 'getMatchByDate').mockResolvedValue(result);
 

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/prisma/prisma.service';
-import { FantasyService } from 'src/fantasy/fantasy.service';
+import { PrismaService } from '../prisma/prisma.service';
+import { FantasyService } from '../fantasy/fantasy.service';
 
 @Injectable()
 export class MatchesService {

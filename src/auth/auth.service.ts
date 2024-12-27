@@ -2,7 +2,7 @@ import { Injectable, ForbiddenException, NotFoundException, UnauthorizedExceptio
 import { AuthdtoChangePass, AuthdtoSignIn, AuthdtoSignUp } from './dto';
 import * as argon2 from 'argon2';
 import { v4 as uuidv4 } from 'uuid';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { PrismaService } from '../prisma/prisma.service';
 import { Prisma } from '@prisma/client';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
