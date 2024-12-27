@@ -7,16 +7,12 @@ import { PrismaService } from 'src/prisma/prisma.service';
 export class UsersService {
   constructor(private prisma: PrismaService) { }
 
-  getAllUsers() {
-    return this.prisma.user.findMany();
-  }
-
-  getAllAdmins() {
-    return this.prisma.user.findMany({
-      where: {
-        role: "ADMIN"
-      }
-    })
+  async getAllUsers() {
+    const users = await this.prisma.user.findMany();
+    return users.map(user => {
+      delete user.hash; // Remove sensitive information if needed
+      return user;
+  });
   }
 
   async updateToAdmin(id: number) {
@@ -76,7 +72,7 @@ export class UsersService {
   async getUser(id: number) {
     try {
       const user = await this.prisma.user.findUnique({
-        where: { id: id }
+        where: { id: Number(id) } // Ensure id is a number
       });
       if (!user) {
         return (`User  with ID ${id} not found`);
@@ -108,22 +104,6 @@ export class UsersService {
     }
   }
 
-  async updateName(id: number, name: string) {
-    console.log(`Updating user with ID ${id} to name ${name}`);
-    try {
-        const user = await this.prisma.user.update({
-            where: { id: id },
-            data: { name: name } // Directly assign the name string
-        });
-        console.log(`User  updated: ${JSON.stringify(user)}`);
-        return `User  with ID ${id} has been updated successfully.`;
-    } catch (error) {
-        console.error("Error updating user name:", error);
-        if (error.code === 'P2025') {
-            return `User  with ID ${id} not found.`;
-        }
-        throw error;
-    }
+  
 }
 
-}

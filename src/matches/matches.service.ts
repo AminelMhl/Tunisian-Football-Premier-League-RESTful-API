@@ -1,61 +1,100 @@
-import { Injectable } from '@nestjs/common'
-import { retry } from 'rxjs';
+import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { FantasyService } from 'src/fantasy/fantasy.service';
 
 @Injectable()
 export class MatchesService {
-  constructor(private prisma: PrismaService) {}
-  getAllMatches() {
-    return this.prisma.match.findMany({
+  constructor(private prisma: PrismaService, private fantasyService: FantasyService) {}
+
+  async getAllMatches() {
+    const matches = await this.prisma.match.findMany({
       include: {
         homeTeam: true,
-        awayTeam: true
-      }
+        awayTeam: true,
+      },
     });
+
+    return matches.map(match => ({
+      result: `${match.homeTeam.name} ${match.homeGoals}-${match.awayGoals} ${match.awayTeam.name}`,
+      date: match.date,
+    }));
   }
 
-async getMatch(id: number) {
-  const match = await this.prisma.match.findUnique({
-    where: { id: id },
-    include: {
-      homeTeam: true,
-      awayTeam: true
+  async getMatch(id: number) {
+    const match = await this.prisma.match.findUnique({
+      where: { id: id },
+      include: {
+        homeTeam: true,
+        awayTeam: true,
+      },
+    });
+
+    if (!match) {
+      throw new Error(`Match with id ${id} not found`);
     }
-  });
-  if (!match) {
-    throw new Error(`Match with id ${id} not found`);
-  }
-  return match;
-}
 
-async getTeamMatches(id: number) {
-  const matches = await this.prisma.match.findMany({
-    where: {
-      OR: [
-        { home_team_id: id },
-        { away_team_id: id }
-      ]
-    },
-    include: {
-      homeTeam: true,
-      awayTeam: true,
-    },
-  });
-  if (matches.length === 0) {
-    throw new Error(`No matches found for team with id ${id}`);
+    return {
+      result: `${match.homeTeam.name} ${match.homeGoals}-${match.awayGoals} ${match.awayTeam.name}`,
+      date: match.date,
+    };
   }
-  return matches;
-}
 
-async getMatchByDate(date: Date) {
-  const matches = await this.prisma.match.findMany({
-    where: {
-      date: date
+  async getTeamMatches(id: number) {
+    const matches = await this.prisma.match.findMany({
+      where: {
+        OR: [
+          { home_team_id: id },
+          { away_team_id: id }
+        ]
+      },
+      include: {
+        homeTeam: true,
+        awayTeam: true,
+      },
+    });
+
+    if (matches.length === 0) {
+      throw new Error(`No matches found for team with id ${id}`);
     }
-  });
-  if (matches.length === 0) {
-    throw new Error(`No matches found on date ${date}`);
+
+    return matches.map(match => ({
+      result: `${match.homeTeam.name} ${match.homeGoals}-${match.awayGoals} ${match.awayTeam.name}`,
+      date: match.date,
+    }));
   }
-  return matches;
-}
+
+  async getMatchByDate(date: Date) {
+    const matches = await this.prisma.match.findMany({
+      where: {
+        date: date
+      },
+      include: {
+        homeTeam: true,
+        awayTeam: true,
+      },
+    });
+
+    if (matches.length === 0) {
+      throw new Error(`No matches found on date ${date}`);
+    }
+
+    return matches.map(match => ({
+      result: `${match.homeTeam.name} ${match.homeGoals}-${match.awayGoals} ${match.awayTeam.name}`,
+      date: match.date,
+    }));
+  }
+
+  async completeMatch(matchId: number, homeGoals: number, awayGoals: number) {
+    // Logic to mark the match as completed and set goals
+    await this.prisma.match.update({
+      where: { id: matchId },
+      data: {
+        homeGoals,
+        awayGoals,
+      },
+    });
+
+    // Update points for fantasy teams based on player contributions
+    await this.fantasyService.updatePointsAfterMatch(matchId);
+  }
 }

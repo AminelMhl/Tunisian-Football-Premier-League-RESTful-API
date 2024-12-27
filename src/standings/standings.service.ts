@@ -7,12 +7,27 @@ import { PrismaService } from 'src/prisma/prisma.service';
 export class StandingsService {
   constructor(private readonly prisma: PrismaService) {}
 
-  getStandings() {
-    return this.prisma.team.findMany({
+  async getStandings() {
+    const teams = await this.prisma.team.findMany({
       orderBy: {
         position: 'asc',
       },
     });
-  }
 
+    // Format the standings
+    const formattedStandings = teams.map(team => ({
+      position: team.position,
+      name: team.name,
+      matchesPlayed: team.matchesPlayed,
+      wins: team.wins,
+      draws: team.draws,
+      losses: team.losses,
+      points: team.points,
+      goalsFor: team.goalsFor,
+      goalsAgainst: team.goalsAgainst,
+      goalDifference: team.goalsFor - team.goalsAgainst,
+    }));
+
+    return formattedStandings;
+  }
 }

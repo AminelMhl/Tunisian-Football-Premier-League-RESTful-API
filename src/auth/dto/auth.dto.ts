@@ -32,11 +32,6 @@ export class AuthdtoSignIn {
 
 export class AuthdtoChangePass {
   @ApiProperty()
-  @IsEmail()
-  @IsNotEmpty()
-  email: string;
-
-  @ApiProperty()
   @IsString()
   @IsNotEmpty()
   oldPassword: string;

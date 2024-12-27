@@ -10,11 +10,22 @@ import { StandingsModule } from './standings/standings.module';
 import { MatchesModule } from './matches/matches.module';
 import { FootballApiServiceModule } from './football-api-service/football-api-service.module';
 import { ConfigModule } from '@nestjs/config';
+import { FantasyModule } from './fantasy/fantasy.module';
+import { PassportModule } from '@nestjs/passport';
+import { JwtModule } from '@nestjs/jwt';
+import { JwtStrategy } from './auth/jwt.strategy';
+import { MailerModule } from '@nestjs-modules/mailer';
 
 @Module({
-  imports: [AuthModule, PrismaModule, UsersModule, TeamsModule, PlayersModule, StandingsModule, MatchesModule, FootballApiServiceModule, ConfigModule.forRoot(), // Ensure ConfigModule is initialized here
-    AuthModule],
+  imports: [PassportModule,
+    JwtModule.register({
+      secret: 'YOUR_JWT_SECRET',
+      signOptions: { expiresIn: '60m' },
+    }),AuthModule, PrismaModule, UsersModule, TeamsModule, PlayersModule, StandingsModule, MatchesModule, FootballApiServiceModule, ConfigModule.forRoot({
+    isGlobal: true, 
+  }),
+    AuthModule, FantasyModule],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, JwtStrategy],
 })
 export class AppModule {}

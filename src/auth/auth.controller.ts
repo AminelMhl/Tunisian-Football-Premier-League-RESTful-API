@@ -1,14 +1,17 @@
-import { Controller, Get, Post, Body, Req, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Req, UseGuards, Res, Put, Query } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthdtoSignIn, AuthdtoSignUp, AuthdtoChangePass } from './dto';
-import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth, ApiExcludeEndpoint } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 import { JwtAuthGuard } from './jwt-auth.guard';
+import { JwtService } from '@nestjs/jwt';
+import { ConfigService } from '@nestjs/config';
+import { RefreshTokenDto } from './dto/refresh-token.dto';
 
 @ApiTags('auth')
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(private readonly authService: AuthService, private readonly jwtService: JwtService, private readonly configService: ConfigService) { }
 
   @Post('signup')
   @ApiOperation({ summary: 'Sign up a new user' })
@@ -27,26 +30,49 @@ export class AuthController {
   }
 
   @Get('google')
+  @ApiExcludeEndpoint()
   @UseGuards(AuthGuard('google'))
   @ApiOperation({ summary: 'Google OAuth login' })
   @ApiResponse({ status: 302, description: 'Redirect to Google OAuth' })
-  async googleAuth(@Req() req) {}
+  async googleAuth(@Req() req) { }
 
   @Get('google/callback')
+  @ApiExcludeEndpoint()
   @UseGuards(AuthGuard('google'))
   @ApiOperation({ summary: 'Google OAuth callback' })
   @ApiResponse({ status: 200, description: 'User authenticated' })
   async googleAuthRedirect(@Req() req) {
-    return this.authService.googleLogin(req);
+    const { user, token } = req.user; // Get user and token from request
+    return {
+      message: 'User  authenticated successfully',
+      user,
+      access_token: token, // Return the JWT token
+    };
   }
 
-  @Post('change-password')
+  @Put('change-password')
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   @ApiOperation({ summary: 'Change user password' })
   @ApiResponse({ status: 200, description: 'Password successfully changed.' })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
-  async changePassword(@Body() dto: AuthdtoChangePass) {
-    return this.authService.changePassword(dto);
+  async changePassword(@Body() dto: AuthdtoChangePass, @Req() req) {
+    const userId = req.user.userId; // Get the user ID from the request
+    return this.authService.changePassword(userId, dto);
+  }
+
+  @Post('refresh-token')
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  @ApiOperation({ summary: 'Generate Token' })
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
+  async refreshToken(@Body() refreshToken: RefreshTokenDto) {
+    return this.authService.refreshToken(refreshToken);
+  }
+
+  @Get('verify')
+  @ApiExcludeEndpoint()
+  async verifyEmail(@Query('token') token: string) {
+    return this.authService.verifyEmail(token);
   }
 }

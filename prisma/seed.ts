@@ -485,8 +485,8 @@ async function main() {
             home_team_id: createdTeam.id,
             away_team_id: (await prisma.team.findUnique({ where: { name: match.opponent } })).id,
             date: match.date,
-            goals_for: match.goalsFor,
-            goals_against: match.goalsAgainst,
+            homeGoals: match.goalsFor,
+            awayGoals: match.goalsAgainst,
           },
         });
       }
@@ -497,8 +497,8 @@ async function main() {
             home_team_id: (await prisma.team.findUnique({ where: { name: match.opponent } })).id,
             away_team_id: createdTeam.id,
             date: match.date,
-            goals_for: match.goalsFor,
-            goals_against: match.goalsAgainst,
+            awayGoals: match.goalsFor,
+            homeGoals: match.goalsAgainst,
           },
         });
       }
