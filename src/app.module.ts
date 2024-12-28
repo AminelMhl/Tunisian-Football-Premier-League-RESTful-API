@@ -14,14 +14,14 @@ import { FantasyModule } from './fantasy/fantasy.module';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './auth/jwt.strategy';
-import { MailerModule } from '@nestjs-modules/mailer';
+import { ManagersModule } from './managers/managers.module';
 
 @Module({
   imports: [PassportModule,
     JwtModule.register({
       secret: 'YOUR_JWT_SECRET',
       signOptions: { expiresIn: '60m' },
-    }),AuthModule, PrismaModule, UsersModule, TeamsModule, PlayersModule, StandingsModule, MatchesModule, FootballApiServiceModule, ConfigModule.forRoot({
+    }),AuthModule, PrismaModule, UsersModule, TeamsModule, ManagersModule, PlayersModule, StandingsModule, MatchesModule, FootballApiServiceModule, ConfigModule.forRoot({
     isGlobal: true, 
   }),
     AuthModule, FantasyModule],

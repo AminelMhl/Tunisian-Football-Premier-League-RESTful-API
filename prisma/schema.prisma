@@ -49,6 +49,15 @@ model Team {
   players        Player[]
   homeMatches    Match[]  @relation("home_team")
   awayMatches    Match[]  @relation("away_team")
+
+  Manager Manager[]
+}
+
+model Manager {
+  id      Int    @id @default(autoincrement())
+  name    String
+  teamId  Int
+  team    Team   @relation(fields: [teamId], references: [id])
 }
 
 model Player {
