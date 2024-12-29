@@ -106,7 +106,6 @@ export class AuthService {
   });
 }
 
-
   async changePassword(userId: number, dto: AuthdtoChangePass) {
     const user = await this.prisma.user.findUnique({
       where: {
@@ -217,7 +216,6 @@ export class AuthService {
     const newAccessToken = await this.signToken(payload.sub, payload.email, payload.role);
     return { access_token: newAccessToken }; // Return only the new access token
 }
-
 
   async verifyEmail(token: string) {
     const user = await this.prisma.user.findUnique({

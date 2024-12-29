@@ -42,11 +42,12 @@ export class AuthController {
   @ApiOperation({ summary: 'Google OAuth callback' })
   @ApiResponse({ status: 200, description: 'User authenticated' })
   async googleAuthRedirect(@Req() req) {
-    const { user, token } = req.user; // Get user and token from request
-    return {
-      message: 'User  authenticated successfully',
-      user,
-      access_token: token, // Return the JWT token
+    const { user } = req;
+    const accessToken = await this.authService.signToken(user.id, user.email, user.role)
+      return {
+      message: 'User authenticated successfully',
+      access_token: accessToken,
+      refresh_token: user.refreshToken,
     };
   }
 
