@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Req, UseGuards, Res, Put, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Req, UseGuards, Res, Put, Query, Patch } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthdtoSignIn, AuthdtoSignUp, AuthdtoChangePass } from './dto';
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth, ApiExcludeEndpoint } from '@nestjs/swagger';
@@ -51,7 +51,7 @@ export class AuthController {
     };
   }
 
-  @Put('change-password')
+  @Patch('change-password')
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   @ApiOperation({ summary: 'Change user password' })

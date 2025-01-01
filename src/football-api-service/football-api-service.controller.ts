@@ -1,4 +1,4 @@
-import { Controller, Post, UseGuards } from '@nestjs/common';
+import { Controller, Patch, Post, UseGuards } from '@nestjs/common';
 import { FootballApiServiceService } from './football-api-service.service';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { RolesGuard } from 'src/auth/roles.guard';
@@ -13,7 +13,7 @@ export class FootballApiServiceController {
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Update standings' })
   @Roles('ADMIN')
-  @Post('/update')
+  @Patch('/update')
   async updateStandings() {
     await this.footballApiServiceService.fetchStandings();
     return { message: 'Standings updated successfully!' };

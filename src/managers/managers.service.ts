@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
@@ -10,8 +10,12 @@ export class ManagersService {
   }
 
   async getManager(id: number) {
-    return this.prisma.manager.findUnique({
+    const manager = await this.prisma.manager.findUnique({
       where: { id },
     });
+    if (!manager) {
+      throw new NotFoundException(`Manager with id ${id} not found`);
+    }
+    return manager;
   }
 }

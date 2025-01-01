@@ -19,7 +19,7 @@ describe('UsersController', () => {
             updateToAdmin: jest.fn().mockResolvedValue({ message: '' }),
             updateToUser: jest.fn().mockResolvedValue({ message: '' }),
             updateName: jest.fn().mockResolvedValue({ message: '' }),
-            removeUser: jest.fn().mockResolvedValue({ message: '' }),
+            removeUser: jest.fn().mockResolvedValue('User with ID 1 has been deleted successfully.'),
           },
         },
       ],
@@ -66,11 +66,11 @@ describe('UsersController', () => {
     };
     jest.spyOn(service, 'getUser').mockResolvedValue(result);
 
-    expect(await controller.getUser ('1')).toBe(result);
+    expect(await controller.getUser('1')).toBe(result);
   });
-  
+
   it('should update a user to admin', async () => {
-    const result = { message: 'User  has been updated to admin.' };
+    const result = { message: 'User has been updated to admin.' };
     jest.spyOn(service, 'updateToAdmin').mockResolvedValue(result);
 
     expect(await controller.updateToAdmin('1')).toBe(result);
@@ -80,14 +80,13 @@ describe('UsersController', () => {
     const result = { message: 'Admin has been updated to user.' };
     jest.spyOn(service, 'updateToUser').mockResolvedValue(result);
 
-    expect(await controller.updateToUser ('1')).toBe(result);
+    expect(await controller.updateToUser('1')).toBe(result);
   });
 
-  
   it('should delete a user', async () => {
-    const result = { message: 'User  with ID 1 has been deleted successfully.' };
-    jest.spyOn(service, 'removeUser').mockResolvedValue(result.message);
+    const result = 'User with ID 1 has been deleted successfully.';
+    jest.spyOn(service, 'removeUser').mockResolvedValue(result);
 
-    expect(await controller.deleteUser ('1')).toBe(result);
+    expect(await controller.deleteUser('1')).toBe(result);
   });
 });

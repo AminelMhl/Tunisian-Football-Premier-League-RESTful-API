@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Put, Param, Delete, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Put, Param, Delete, UseGuards, Patch } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
@@ -29,7 +29,7 @@ export class UsersController {
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Updates user to admin'})
   @Roles('ADMIN')
-  @Put(":id")
+  @Patch(":id")
   updateToAdmin(@Param("id") id: string) {
     return this.usersService.updateToAdmin(Number(id));
   }
@@ -38,7 +38,7 @@ export class UsersController {
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Updates admin to user'})
   @Roles('ADMIN')
-  @Put("/admins/:id")
+  @Patch("/admins/:id")
   updateToUser(@Param("id") id: string) {
     return this.usersService.updateToUser(Number(id));
   }

@@ -31,23 +31,19 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
     });
 
     const token = await this.authService.signToken(user.id, user.email, user.role);
-    if (!user.refreshToken) {
-      const newRefreshToken = await this.jwtService.signAsync({ sub: user.id }, {
-        expiresIn: '7d',
-        secret: this.configService.get<string>('JWT_SECRET'),
-      });
+    const newRefreshToken = await this.jwtService.signAsync({ sub: user.id }, {
+      expiresIn: '7d',
+      secret: this.configService.get<string>('JWT_SECRET'),
+    });
 
-      // Update the user with the new refresh token
-      await this.prisma.user.update({
-        where: { id: user.id },
-        data: { refreshToken: newRefreshToken },
-      });
+    // Update the user with the new refresh token
+    await this.prisma.user.update({
+      where: { id: user.id },
+      data: { refreshToken: newRefreshToken },
+    });
 
-      // Return user and tokens
-      done(null, { user, token, refreshToken: newRefreshToken });
-    } else {
-      done(null, { user, token, refreshToken: user.refreshToken });
-      }
+    // Return user and tokens
+    done(null, { user, token, refreshToken: newRefreshToken });
 
   }
 }

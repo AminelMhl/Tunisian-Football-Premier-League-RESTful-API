@@ -7,8 +7,8 @@ import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class FootballApiServiceService {
-  private readonly API_URL = this.configService.get<string>('API_URL');
-  private readonly API_KEY = this.configService.get<string>('API_KEY');
+  private readonly API_URL = this.configService.get<string>('API_URL') || '';
+  private readonly API_KEY = this.configService.get<string>('API_KEY') || '';
 
   constructor(private readonly httpService: HttpService, private readonly prisma: PrismaService, private readonly configService: ConfigService) {}
 
@@ -22,7 +22,7 @@ export class FootballApiServiceService {
           },
           params: {
             league: '202',
-            season: '2022',
+            season: '2024',
           },
         }),
       );

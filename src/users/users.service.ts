@@ -8,10 +8,13 @@ export class UsersService {
 
   async getAllUsers() {
     const users = await this.prisma.user.findMany();
+    if (!users) {
+      return []; 
+    }
     return users.map(user => {
-      delete user.hash; // Remove sensitive information if needed
-      return user;
-  });
+      const { hash, refreshToken, ...userWithoutSensitiveInfo } = user as { hash?: string, refreshToken?: string };
+      return userWithoutSensitiveInfo;
+    });
   }
 
   async updateToAdmin(id: number) {
@@ -68,21 +71,15 @@ export class UsersService {
 
 
 
-  async getUser(id: number) {
-    try {
+  async getUser(id: number){ 
       const user = await this.prisma.user.findUnique({
-        where: { id: Number(id) } // Ensure id is a number
+        where: { id: Number(id) }
       });
       if (!user) {
-        return (`User  with ID ${id} not found`);
+        throw new NotFoundException(`User with ID ${id} not found`);
       }
-      delete user.hash;
-
-      return user;
-    } catch (error) {
-      console.error("Error fetching user:", error);
-      throw new InternalServerErrorException("An error occurred while fetching the user");
-    }
+      const { hash, refreshToken, ...userWithoutSensitiveInfo } = user;
+      return userWithoutSensitiveInfo;
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {
