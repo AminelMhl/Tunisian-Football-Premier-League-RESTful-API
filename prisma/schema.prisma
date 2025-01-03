@@ -55,7 +55,7 @@ model Team {
 
 model Manager {
   id      Int    @id @default(autoincrement())
-  name    String
+  name    String @unique
   teamId  Int
   team    Team   @relation(fields: [teamId], references: [id])
 }

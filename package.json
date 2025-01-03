@@ -100,7 +100,20 @@
       "^.+\\.(t|j)s$": "ts-jest"
     },
     "collectCoverageFrom": [
-      "**/*.(t|j)s"
+      "**/*.ts",
+      "!**/app.module.ts",
+      "!**/main.ts",
+      "!**/app.controller.ts",
+      "!**/app.service.ts",
+      "!**/main.ts",
+      "!**/**/*.module.ts",
+      "!**/**/dto/*.ts",
+      "!**/auth/*.strategy.ts",
+      "!**/auth/*.decorator.ts",
+      "!**/auth/*.guard.ts",
+      "!**/auth/*.controller.ts",
+      "!**/football-api-service/**",
+      "!**/prisma/**"
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"

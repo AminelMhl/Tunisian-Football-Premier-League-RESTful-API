@@ -1,5 +1,4 @@
 import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
-import { UpdateUserDto } from './dto/update-user.dto';
 import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
@@ -80,10 +79,6 @@ export class UsersService {
       }
       const { hash, refreshToken, ...userWithoutSensitiveInfo } = user;
       return userWithoutSensitiveInfo;
-  }
-
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
   }
 
   async removeUser(id: number) {
