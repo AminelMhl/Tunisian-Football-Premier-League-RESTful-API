@@ -21,7 +21,7 @@ export class FootballApiServiceService {
           },
           params: {
             league: '202',
-            season: '2022',
+            season: '2024',
           },
         }),
       );
@@ -69,7 +69,7 @@ export class FootballApiServiceService {
           },
           params: {
             league: '202',
-            season: '2022',
+            season: '2024',
           },
         }),
       );
@@ -113,7 +113,7 @@ export class FootballApiServiceService {
           },
           params: {
             league: '202',
-            season: '2022',
+            season: '2024',
           },
         }),
       );
@@ -151,7 +151,7 @@ export class FootballApiServiceService {
           },
           params: {
             league: '202',
-            season: '2022',
+            season: '2024',
           },
         }),
       );
