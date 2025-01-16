@@ -79,9 +79,6 @@ export class AuthService {
 
     const accessToken = await this.signToken(user.id, user.email, user.role);
 
-    // Check if the user already has a refresh token
-    if (!user.refreshToken) {
-      // Generate a new refresh token if it doesn't exist
       user.refreshToken = await this.jwtService.signAsync({ sub: user.id }, {
         expiresIn: '7d', // Set a longer expiration for refresh token
         secret: this.configService.get<string>('JWT_SECRET'),
@@ -92,7 +89,7 @@ export class AuthService {
         where: { id: user.id },
         data: { refreshToken: user.refreshToken },
       });
-    }
+    
 
     return { access_token: accessToken, refresh_token: user.refreshToken }; // Return both tokens
   }

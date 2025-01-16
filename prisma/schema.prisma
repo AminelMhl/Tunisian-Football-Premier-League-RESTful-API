@@ -24,7 +24,7 @@ model User {
 
   role String @default("USER")
 
-  refreshToken    String?
+  refreshToken String? @unique
 
   isVerified        Boolean @default(false)
   verificationToken String? @unique
@@ -54,10 +54,10 @@ model Team {
 }
 
 model Manager {
-  id      Int    @id @default(autoincrement())
-  name    String @unique
-  teamId  Int
-  team    Team   @relation(fields: [teamId], references: [id])
+  id     Int    @id @default(autoincrement())
+  name   String @unique
+  teamId Int
+  team   Team   @relation(fields: [teamId], references: [id])
 }
 
 model Player {

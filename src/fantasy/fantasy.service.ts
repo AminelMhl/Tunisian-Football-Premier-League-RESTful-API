@@ -1,4 +1,4 @@
-import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateFantasyTeamDto } from './dto/create-fantasy-team.dto';
 
@@ -19,7 +19,8 @@ export class FantasyService {
         });
 
         if (players.length !== playerIds.length) {
-            throw new Error('One or more players do not exist.');
+            return ('One or more players do not exist.');
+            
         }
 
         const existingTeam = await this.prisma.fantasyTeam.findFirst({
@@ -142,6 +143,9 @@ export class FantasyService {
         if (playerExists) {
             throw new ConflictException('Player already exists in the fantasy team');
         }
+        if (fantasyTeam.players.length >= 11) {
+            throw new BadRequestException('Fantasy team cannot have more than 11 players');
+          }
 
         // Append the new player
         return this.prisma.fantasyTeam.update({

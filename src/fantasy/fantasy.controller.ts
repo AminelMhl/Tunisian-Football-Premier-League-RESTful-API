@@ -38,6 +38,7 @@ export class FantasyController {
   }
 
   @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @ApiOperation({ summary: "Get a fantasy a user's fantasy team" })
     @ApiBearerAuth()
     @Get('teams/user/:userId') // Endpoint to get a fantasy team by user ID
